@@ -224,7 +224,7 @@ void plog_printf(int level, const char* filename, int lineno, const char* fmt, .
 	_format_time(time_fmt);
 
 	int len = snprintf(buf, BUF_LEN * 2, "%s %s:%d%s: %s\n", time_fmt,
-		filename, lineno, __plog.info[level], user_msg);
+			filename, lineno, __plog.info[level], user_msg);
 
 	LOCK();
 	if (__plog.tail->remain > len) {
@@ -234,6 +234,27 @@ void plog_printf(int level, const char* filename, int lineno, const char* fmt, .
 		condition_signal_one(&__plog.condition);
 		_append(__plog.tail, buf, len);
 	}
+	UNLOCK();
+}
+
+void plog_fatal(const char* filename, int lineno, const char* fmt, ...)
+{
+	char buf[BUF_LEN * 2] = {0};
+	char user_msg[BUF_LEN] = {0};
+	va_list ap; 
+
+	va_start(ap, fmt);
+	vsnprintf(user_msg, BUF_LEN, fmt, ap);
+	va_end(ap);
+
+	char time_fmt[32];
+	_format_time(time_fmt);
+
+	int len = snprintf(buf, BUF_LEN * 2, "%s %s:%d FATAL : %s\n", time_fmt,
+			filename, lineno, user_msg);
+
+	LOCK();
+	__plog.fseek = write(__plog.fd, buf, len);
 	UNLOCK();
 }
 
