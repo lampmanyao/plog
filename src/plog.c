@@ -26,8 +26,8 @@ struct plog_buffer {
 };
 
 struct plog {
-	int lock;
 	int level;
+	int lock;
 	int rotate_size;
 	int fseek;
 	int fd;
@@ -41,7 +41,9 @@ struct plog {
 	struct plog_buffer** buffers;
 };
 
-struct plog __plog;
+struct plog __plog = {
+	.level = -1,
+};
 
 static struct plog_buffer* _malloc_plog_buffer()
 {
@@ -264,4 +266,3 @@ void plog_close()
 	condition_destroy(&__plog.condition);
 	_destroy_plog_buffers(__plog.buffers);
 }
-
