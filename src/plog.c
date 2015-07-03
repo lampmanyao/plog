@@ -256,6 +256,7 @@ void plog_fatal(const char* filename, int lineno, const char* fmt, ...)
 			filename, lineno, user_msg);
 
 	LOCK();
+	write(__plog.fd, __plog.head->data, __plog.head->seek);
 	__plog.fseek = write(__plog.fd, buf, len);
 	UNLOCK();
 }
