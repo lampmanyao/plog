@@ -65,7 +65,7 @@ static void _append(struct plog_buffer* plog_buffer, const char* msg, int _len)
 static struct plog_buffer** _create_plog_buffers()
 {
 	int i;
-	struct plog_buffer** arr = calloc(N_ELEMENTS, sizeof(struct plog_buffer_list*));
+	struct plog_buffer** arr = calloc(N_ELEMENTS, sizeof(struct plog_buffer*));
 	for (i = 0; i < N_ELEMENTS; i++) {
 		struct plog_buffer* b = _malloc_plog_buffer();
 		arr[i] = b;
