@@ -32,17 +32,16 @@ int main(int argc, char** argv)
 
 	int n = atoi(argv[2]);
 	nloop = atoi(argv[3]);
+	pthread_t* tids = calloc(n, sizeof(pthread_t));
 
 	int i;
 	for (i = 0; i < n; i++) {
-		pthread_t tid;
-		pthread_create(&tid, NULL, log_thread, NULL);
+		pthread_create(&tids[i], NULL, log_thread, NULL);
 	}
 
-	while (1) {
-		sleep(1);
+	for (i = 0; i < n; i++) {
+		pthread_join(tids[i], NULL);
 	}
-
 	plog_close();
 
 	return 0;

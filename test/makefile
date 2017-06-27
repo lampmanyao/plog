@@ -6,24 +6,21 @@ lib = -lpthread
 
 VPATH = ./: ../src/
 
-target = test_plog
+srcs = $(wildcard *.c)
+srcs += $(wildcard ../src/*.c)
+objs = $(srcs:.c=.o)
+
+target = bench
 
 all: $(target)
 
-
-test_plog: test_plog.o condition.o plog.o
+bench: $(objs)
 	gcc $(cflags) -o $@ $^ $(inc) $(lib)
 
-test_plog.o: test_plog.c
-	gcc $(cflags) -c $^ $(inc)
-
-condition.o: condition.c
-	gcc $(cflags) -c $^ $(inc)
-
-plog.o: plog.c
-	gcc $(cflags) -c $^ $(inc)
+%.o: %.c
+	gcc $(cflags) -c $^ -o $@ $(inc)
 
 clean:
-	rm -f *.o
+	rm -f *.o ../src/*.o
 	rm -f $(target)
 	rm -f *.log
