@@ -20,25 +20,25 @@ void _format_time(char* time_buff);
 	plog_printf(3, "%s %s:%d DEBUG " fmt "\n", time_fmt, __FILE__, __LINE__, ##args); \
 } while (0)
 
-#define PLOG_INFO(args...) do { \
+#define PLOG_INFO(fmt, args...) do { \
 	char time_fmt[32]; \
 	_format_time(time_fmt); \
 	plog_printf(2, "%s %s:%d INFO " fmt "\n", time_fmt, __FILE__, __LINE__, ##args); \
 } while (0)
 
-#define PLOG_WARNING(args...) do { \
+#define PLOG_WARNING(fmt, args...) do { \
 	char time_fmt[32]; \
 	_format_time(time_fmt); \
 	plog_printf(1, "%s %s:%d WARNING " fmt "\n", time_fmt, __FILE__, __LINE__, ##args); \
 } while (0)
 
-#define PLOG_ERROR(args...) do { \
+#define PLOG_ERROR(fmt, args...) do { \
 	char time_fmt[32]; \
 	_format_time(time_fmt); \
 	plog_printf(0, "%s %s:%d ERROR " fmt "\n", time_fmt, __FILE__, __LINE__, ##args); \
 } while (0)
 
-#define PLOG_FATAL(args...) do { \
+#define PLOG_FATAL(fmt, args...) do { \
 	char time_fmt[32]; \
 	_format_time(time_fmt); \
         plog_fatal("%s %s:%d FATAL " fmt "\n", time_fmt, __FILE__, __LINE__, ##args); \
